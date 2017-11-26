@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:名称空间，全局的唯一约束 -->
+<mapper namespace="cn.itcast.usermanage.mapper.UserMapper">
+
+	<select id="queryUserById" resultType="User">
+		select * from tb_user where id=#{id}
+	</select>
+	
+	<select id="queryUsersByPage" resultType="User">
+		select * from tb_user limit #{start},#{size}
+	</select>
+	
+	<select id="queryUsersAll" resultType="User">
+		select * from tb_user
+	</select>
+	
+	<insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO tb_user (
+			user_name,
+			password,
+			name,
+			age,
+			sex,
+			birthday,
+			created,
+			updated
+		)
+		VALUES
+			(
+				#{userName},
+				#{password},
+				#{name},
+				#{age},
+				#{sex},
+				#{birthday},
+				NOW(),
+				NOW()
+			);
+	</insert>
+	
+	<delete id="deleteUserByIds">
+		delete from tb_user where id in
+		<foreach collection="ids" item="id" separator="," open="(" close=")">#{id}</foreach>
+	</delete>
+	
+</mapper>
